@@ -1,0 +1,263 @@
+@import "tailwindcss";
+
+/* Tokens: see DESIGN.md §3–§6. Each colour has exactly one role. */
+@theme {
+  --color-navy-950: #0b1b33;
+  --color-navy-900: #10264a;
+  --color-navy-800: #17335f;
+  --color-teal-800: #225a57;
+  --color-teal-700: #2b6f6b;
+  --color-teal-300: #7cc5bf;
+  --color-teal-50: #eef6f5;
+  --color-ink-600: #4f5d73;
+  --color-ink-400: #8a98ab;
+  --color-line: #d8dfe8;
+  --color-surface-100: #ebeff4;
+  --color-surface-50: #f5f7fa;
+  --color-danger: #b42318;
+  --color-success: #1f7a4d;
+
+  --radius-ui: 6px;
+  --ease-out-ui: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Each homepage direction swaps the type pairing through these two variables. */
+@theme inline {
+  --font-display: var(--type-display);
+  --font-body: var(--type-body);
+}
+
+:root {
+  --type-display: var(--font-source-serif), Georgia, serif;
+  --type-body: var(--font-source-sans), system-ui, sans-serif;
+}
+
+.dir-engineering {
+  --type-display: var(--font-plex), system-ui, sans-serif;
+  --type-body: var(--font-plex), system-ui, sans-serif;
+}
+
+html {
+  color-scheme: light;
+  -webkit-text-size-adjust: 100%;
+}
+
+body,
+.dir-engineering {
+  font-family: var(--type-body);
+}
+
+body {
+  background: var(--color-surface-50);
+  color: var(--color-navy-950);
+  font-size: 17px;
+  line-height: 1.65;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--type-display);
+  font-weight: 600;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-teal-700);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.on-dark :focus-visible {
+  outline-color: var(--color-teal-300);
+}
+
+/* In-page anchor jumps only. Page scrolling stays native (no Lenis). */
+@media (prefers-reduced-motion: no-preference) {
+  html:focus-within {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Engineering direction: the display title uses Plex's condensed width axis. */
+.dir-engineering .display-condensed {
+  font-stretch: 82%;
+  letter-spacing: -0.01em;
+}
+
+/* Institutions strip (DESIGN.md §6): CSS only, pauses on hover/focus, static under reduced motion. */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee 60s linear infinite;
+}
+
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+    flex-wrap: wrap;
+    width: auto;
+    justify-content: center;
+  }
+  .marquee-track [aria-hidden="true"] {
+    display: none;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Modal open: lock page scroll natively (no Lenis stop/start hacks). */
+html:has(dialog[open]) {
+  overflow: hidden;
+}
+
+/* ── Motion (DESIGN.md §6) ──────────────────────────────────────────────
+   Subtle and short: 160–260ms, transform/opacity only, all off under reduced motion. */
+
+/* Modal: fade + lift in, reverse on close (display/overlay kept alive for the exit). */
+dialog.modal {
+  opacity: 0;
+  transform: translateY(10px) scale(0.985);
+  transition:
+    opacity 200ms var(--ease-out-ui),
+    transform 240ms var(--ease-out-ui),
+    overlay 240ms allow-discrete,
+    display 240ms allow-discrete;
+}
+dialog.modal[open] {
+  opacity: 1;
+  transform: none;
+}
+@starting-style {
+  dialog.modal[open] {
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+  }
+}
+dialog.modal::backdrop {
+  background-color: rgb(11 27 51 / 0);
+  transition:
+    background-color 240ms ease-out,
+    overlay 240ms allow-discrete,
+    display 240ms allow-discrete;
+}
+dialog.modal[open]::backdrop {
+  background-color: rgb(11 27 51 / 0.72);
+}
+@starting-style {
+  dialog.modal[open]::backdrop {
+    background-color: rgb(11 27 51 / 0);
+  }
+}
+
+/* Page navigation: the outgoing page fades quickly, the new one fades in and rises 8px.
+   Header and footer sit outside the transition, so they stay put. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+::view-transition-old(.page) {
+  animation: 140ms ease-out both vt-fade-out;
+}
+::view-transition-new(.page) {
+  animation: 280ms var(--ease-out-ui) 60ms both vt-rise-in;
+}
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes vt-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* Mobile menu: height + fade via the grid-rows trick (no JS measuring). */
+.collapse-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 240ms var(--ease-out-ui),
+    opacity 180ms ease-out;
+}
+.collapse-panel[data-open="true"] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+.collapse-panel > * {
+  overflow: hidden;
+}
+
+/* Content reveal on first paint of a section: very light, CSS only, never on scroll. */
+@media (prefers-reduced-motion: reduce) {
+  dialog.modal,
+  dialog.modal::backdrop,
+  .collapse-panel {
+    transition: none;
+  }
+  ::view-transition-old(.page),
+  ::view-transition-new(.page) {
+    animation: none;
+  }
+}
+
+/* Speaker slider: native scroll-snap, hidden scrollbar (arrows + swipe + keyboard remain). */
+.snap-track {
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.snap-track::-webkit-scrollbar {
+  display: none;
+}
+.snap-track > * {
+  scroll-snap-align: start;
+}
+
+/* Hero slideshow progress hairline (runs for one slide interval). */
+@keyframes slide-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.slide-progress {
+  animation: slide-progress 6.5s linear forwards;
+}
+
+/* Native <details> disclosure marker removal (committee/FAQ lists). */
+summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Long-form text blocks on inner pages. */
+.prose-ic p + p {
+  margin-top: 1em;
+}
+.prose-ic a {
+  color: var(--color-teal-700);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
