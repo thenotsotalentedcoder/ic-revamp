@@ -2,10 +2,24 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Workshop } from "@/lib/api";
 
-/** Only real http(s) links count as a registration link (the DB currently holds placeholders like "google.com"). */
+/** A real http(s) link set by the admin wins (the DB may hold placeholders like "google.com"); otherwise the button shows "Registration opens soon". */
 export function workshopFormUrl(w: Workshop) {
   const u = w.registrationLink?.trim();
   return u && /^https?:\/\/[^/]+\.[^/]+/.test(u) && !/^https?:\/\/(www\.)?google\.com\/?$/.test(u) ? u : null;
+}
+
+/** Internal links use next/link; external ones open in a new tab. */
+export function FormLink({ href, className, children }: { href: string; className: string; children: React.ReactNode }) {
+  return href.startsWith("/") ? (
+    <Link href={href} className={className}>
+      {children}
+    </Link>
+  ) : (
+    <a href={href} target="_blank" rel="noreferrer" className={className}>
+      {children}
+      <span className="sr-only"> (opens in a new tab)</span>
+    </a>
+  );
 }
 
 /** Poster-led card: poster (or a typographic cover until the poster is uploaded), then register + details. */
@@ -42,17 +56,14 @@ export function WorkshopCard({ w, onDark = false, priority = false }: { w: Works
           </Link>
         </h3>
         {form ? (
-          <a
+          <FormLink
             href={form}
-            target="_blank"
-            rel="noreferrer"
             className={`inline-flex h-12 items-center justify-center rounded-[2px] px-5 text-[16px] font-semibold transition-colors duration-150 active:translate-y-px ${
               onDark ? "bg-white text-navy-950 hover:bg-teal-50" : "bg-teal-700 text-white hover:bg-teal-800"
             }`}
           >
             Register for this workshop
-            <span className="sr-only"> (opens a Google Form in a new tab)</span>
-          </a>
+          </FormLink>
         ) : (
           <span className={`inline-flex h-12 items-center justify-center rounded-[2px] border border-dashed px-5 text-[15px] ${onDark ? "border-white/30 text-white/70" : "border-ink-400 text-ink-600"}`}>
             Registration opens soon

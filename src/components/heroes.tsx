@@ -22,11 +22,11 @@ const SLIDES: Slide[] = [
 
 /** Homepage hero: navy text panel + documentary slideshow (direction B layout, direction A type). */
 export function Hero({ people }: { people: Person[] }) {
-  const countries = [...new Map(people.filter((p) => p.country.code && p.country.code !== "PK").map((p) => [p.country.code, p.country])).values()];
+  const countries = [...new Map(people.filter((p) => p.country.code).map((p) => [p.country.code, p.country])).values()];
 
   return (
-    <section className="on-dark grid bg-navy-950 text-white lg:min-h-[620px] lg:grid-cols-12">
-      <div className="flex flex-col justify-center px-4 py-12 md:px-8 lg:col-span-5 lg:py-16 lg:pl-[max(32px,calc((100vw-1200px)/2+32px))] lg:pr-12">
+    <section className="on-dark grid bg-navy-950 text-white lg:min-h-[620px] lg:grid-cols-[min(58%,max(41.667%,calc((100vw-1200px)/2+32px+540px)))_1fr]">
+      <div className="flex flex-col justify-center px-4 py-12 md:px-8 lg:py-16 lg:pl-[max(32px,calc((100vw-1200px)/2+32px))] lg:pr-12">
         <EditionRail onDark />
         <h1 className="mt-8 text-[52px] leading-[0.95] tracking-[-0.02em] md:text-[76px]">
           {CONFERENCE.brand}
@@ -74,7 +74,7 @@ export function Hero({ people }: { people: Person[] }) {
         </p>
       </div>
 
-      <div className="relative lg:col-span-7">
+      <div className="relative">
         <HeroSlideshow slides={SLIDES} />
       </div>
     </section>

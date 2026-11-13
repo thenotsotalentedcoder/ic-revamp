@@ -1,13 +1,13 @@
 /**
  * Registration fees and Google Form links (per the organising committee, 13 Nov 2026).
- * Registration happens on Google Forms; the site only explains fees and links out.
- * Paste each form URL below. An empty string shows "Form link coming soon" instead of a button.
+ * An empty string shows "Form link coming soon" instead of a button.
+ * (The in-site forms under /registration/paper|attendee|workshop still exist but are not linked from here.)
  */
 export const REG_FORMS = {
-  paper: "",
-  coauthor: "",
-  attendee: "",
-  group: "",
+  paper: "https://forms.gle/M8H5eJW1QW4KGNgq5",
+  coauthor: "https://forms.gle/tyXZMYFNaxya7fKr9",
+  attendee: "https://docs.google.com/forms/d/e/1FAIpQLSdbhiQgEwr1XrJqj2gHXLa77QqZg8R8DpDtQhQfx8FY5bkRZA/viewform?usp=dialog",
+  group: "https://forms.gle/vjD1jY4qga8ezRGS8",
 } as const;
 
 export type Fee = { label: string; detail?: string; amount: string };
@@ -42,8 +42,8 @@ export const REGISTRATION_TYPES: RegistrationType[] = [
       { label: "Co-author registration", amount: "PKR 3,000" },
     ],
     actions: [
-      { label: "Register paper", form: "paper" },
-      { label: "Register co-author", form: "coauthor" },
+      { label: "Paper / presenter registration", form: "paper" },
+      { label: "Co-author registration", form: "coauthor" },
     ],
     includes: ["Conference kit", "Lunch and refreshments", "Presentation certificate", "Access to all sessions and workshops"],
   },
@@ -56,7 +56,7 @@ export const REGISTRATION_TYPES: RegistrationType[] = [
       { label: "IEEE professional attendee", detail: "Valid IEEE membership", amount: "PKR 2,000" },
       { label: "IEEE or NED student attendee", detail: "Valid student card", amount: "PKR 1,000" },
     ],
-    actions: [{ label: "Register as attendee", form: "attendee" }],
+    actions: [{ label: "Attendee registration", form: "attendee" }],
     includes: ["Conference kit", "Lunch and refreshments", "Participation certificate", "Access to selected workshops"],
   },
   {
@@ -64,7 +64,7 @@ export const REGISTRATION_TYPES: RegistrationType[] = [
     title: "Group",
     summary: "Register five people together and pay for four. The fifth registration is free.",
     fees: [{ label: "Group of 5 attendees", amount: "PKR 12,000" }],
-    actions: [{ label: "Register a group", form: "group" }],
+    actions: [{ label: "Group registration", form: "group" }],
     includes: ["Conference kit", "Lunch and refreshments", "Participation certificate", "Access to selected workshops"],
     note: "One form per group. Enter all five members’ details.",
   },

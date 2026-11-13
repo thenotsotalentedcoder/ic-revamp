@@ -226,7 +226,7 @@ export function InstitutionsStrip() {
     <section aria-labelledby="inst-h" className="border-t border-line bg-white py-14 md:py-16">
       <Container>
         <h2 id="inst-h" className="max-w-[760px] text-[20px] leading-snug">
-          Researchers from these institutions have spoken at, reviewed for, or organised {CONFERENCE.brand}
+          Research Publications &amp; Contributions from Leading Universities
         </h2>
       </Container>
       <div className="marquee mt-8 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_5%,#000_95%,transparent)]">

@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { ViewTransition } from "react";
 import { Source_Sans_3, Source_Serif_4 } from "next/font/google";
+import { Chrome } from "@/components/chrome";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { CONFERENCE } from "@/lib/site";
@@ -33,12 +33,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en-GB" className={`${sourceSerif.variable} ${sourceSans.variable} antialiased`}>
       <body className="flex min-h-dvh flex-col">
-        <SiteHeader />
-        <main id="main" className="flex-1">
-          {/* Route changes crossfade only the page content; header and footer stay still. */}
-          <ViewTransition default="page">{children}</ViewTransition>
-        </main>
-        <SiteFooter />
+        <Chrome header={<SiteHeader />} footer={<SiteFooter />}>
+          {children}
+        </Chrome>
       </body>
     </html>
   );

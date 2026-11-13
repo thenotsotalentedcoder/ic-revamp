@@ -30,16 +30,21 @@ export function ButtonLink({
   return <Link {...props} className={`${BTN_BASE} ${BTN[variant]} ${className}`} />;
 }
 
-export function DisabledButton({ children, reason }: { children: ReactNode; reason: string }) {
+/** Non-clickable button. `reason` shows on hover (title) and to screen readers; pass `showReason` to print it under the button too. */
+export function DisabledButton({ children, reason, showReason = false }: { children: ReactNode; reason: string; showReason?: boolean }) {
   return (
     <span className="inline-flex flex-col gap-2">
       <span
+        role="button"
         aria-disabled="true"
-        className={`${BTN_BASE} cursor-not-allowed border border-dashed border-ink-400 bg-surface-100 text-ink-600 active:translate-y-0`}
+        tabIndex={0}
+        title={reason}
+        aria-label={`${typeof children === "string" ? children : "Unavailable"}. ${reason}`}
+        className={`${BTN_BASE} cursor-not-allowed select-none border border-dashed border-ink-400 bg-surface-100 text-ink-600 active:translate-y-0`}
       >
         {children}
       </span>
-      <span className="text-[14px] text-ink-600">{reason}</span>
+      {showReason && <span className="text-[14px] text-ink-600">{reason}</span>}
     </span>
   );
 }
@@ -122,11 +127,17 @@ export function PageHeader({
   intro,
   crumbs = [],
   aside,
+  asideAlign = "end",
+  extra,
 }: {
   title: string;
   intro?: ReactNode;
   crumbs?: { label: string; href: string }[];
   aside?: ReactNode;
+  /** Tall asides (e.g. a poster) read better centred against the title. */
+  asideAlign?: "end" | "center";
+  /** Rendered under the intro, in the left column. */
+  extra?: ReactNode;
 }) {
   return (
     <section className="on-dark bg-navy-950 text-white">
@@ -148,12 +159,13 @@ export function PageHeader({
             ))}
           </ol>
         </nav>
-        <div className="mt-8 grid gap-10 lg:grid-cols-12 lg:items-end">
-          <div className="lg:col-span-8">
+        <div className={`mt-8 grid gap-10 lg:grid-cols-12 ${asideAlign === "center" ? "lg:items-center" : "lg:items-end"}`}>
+          <div className={asideAlign === "center" ? "lg:col-span-7" : "lg:col-span-8"}>
             <h1 className="text-[40px] leading-[1.05] tracking-[-0.01em] md:text-[56px]">{title}</h1>
             {intro && <div className="mt-5 max-w-[640px] text-[18px] leading-relaxed text-white/80">{intro}</div>}
+            {extra && <div className="mt-8">{extra}</div>}
           </div>
-          {aside && <div className="lg:col-span-4">{aside}</div>}
+          {aside && <div className={asideAlign === "center" ? "lg:col-span-5" : "lg:col-span-4"}>{aside}</div>}
         </div>
       </Container>
       <div className="border-t border-navy-800">

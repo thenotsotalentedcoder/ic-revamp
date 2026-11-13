@@ -15,15 +15,11 @@ function FormButton({ label, url, primary }: { label: string; url: string; prima
         <span className="text-[13px]">Form link coming soon</span>
       </span>
     );
+  const cls = `group flex h-12 w-full items-center justify-between rounded-[2px] px-4 text-[16px] font-semibold transition-colors duration-150 active:translate-y-px ${
+    primary ? "bg-teal-700 text-white hover:bg-teal-800" : "border border-navy-950/25 bg-white text-navy-950 hover:border-navy-950"
+  }`;
   return (
-    <a
-      href={url}
-      target="_blank"
-      rel="noreferrer"
-      className={`group flex h-12 w-full items-center justify-between rounded-[2px] px-4 text-[16px] font-semibold transition-colors duration-150 active:translate-y-px ${
-        primary ? "bg-teal-700 text-white hover:bg-teal-800" : "border border-navy-950/25 bg-white text-navy-950 hover:border-navy-950"
-      }`}
-    >
+    <a href={url} target="_blank" rel="noreferrer" className={cls}>
       {label}
       <span className="text-[13px] font-medium opacity-80">
         Google Form

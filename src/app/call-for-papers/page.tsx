@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { getSettings, getTracks } from "@/lib/api";
-import { API_BASE } from "@/lib/api";
 import { CONFERENCE } from "@/lib/site";
 import { DatesSection } from "@/components/home-sections";
+import cfpPoster from "../../../public/cfp.jpeg";
 import { ButtonLink, Container, DisabledButton, PageHeader, SectionHead, StatusNote, TextLink } from "@/components/ui";
 
 export const metadata: Metadata = {
@@ -21,7 +22,8 @@ const SECTIONS = [
 
 export default async function CallForPapersPage() {
   const [tracks, settings] = await Promise.all([getTracks(), getSettings()]);
-  const asset = (p?: string) => (p ? (p.startsWith("http") ? p : `${API_BASE}${p}`) : null);
+  // Files now live in Supabase Storage (absolute URLs). Old "/uploads/..." paths from the retired backend are ignored until re-uploaded in the admin.
+  const asset = (p?: string) => (p && /^https?:\/\//.test(p) ? p : null);
   const latex = asset(settings.cfp_latex_template_url);
   const poster = asset(settings.cfp_poster_url);
   const overleaf = settings.cfp_overleaf_template_url ?? null;
@@ -32,15 +34,38 @@ export default async function CallForPapersPage() {
         title="Call for papers"
         intro="Original, unpublished research across six tracks of computer science. Accepted papers are presented at the conference in Karachi and submitted for publication in IEEE Conference Proceedings."
         crumbs={[{ label: "Call for papers", href: "/call-for-papers" }]}
-        aside={
-          <div className="border border-white/20 p-5">
-            <p className="text-[14px] text-white/60">Submission status</p>
-            <p className="mt-1 font-display text-[24px] font-semibold">Closed</p>
-            <p className="mt-2 text-[15px] text-white/75">Accepted authors can now register for the conference.</p>
-            <ButtonLink href="/registration" variant="on-dark" className="mt-5 w-full">
+        asideAlign="center"
+        extra={
+          <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
+            <div>
+              <p className="text-[14px] text-white/60">Submission status</p>
+              <p className="font-display text-[26px] font-semibold leading-tight">Closed</p>
+            </div>
+            <ButtonLink href="/registration" variant="on-dark">
               Register as an author
             </ButtonLink>
           </div>
+        }
+        aside={
+          <figure className="mx-auto w-full max-w-[460px] lg:ml-auto">
+            <a
+              href="/cfp.jpeg"
+              target="_blank"
+              rel="noreferrer"
+              className="group relative block overflow-hidden rounded-[2px] shadow-[0_0_0_1px_rgba(255,255,255,0.18),0_24px_60px_rgba(0,0,0,0.45)]"
+            >
+              <Image
+                src={cfpPoster}
+                alt="iCONICS’26 call for papers poster: conference tracks, important dates, fees and contact details"
+                priority
+                sizes="(min-width:1024px) 460px, 90vw"
+                className="h-auto w-full transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+              />
+              <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy-950/90 to-transparent px-4 pb-3 pt-10 text-[14px] font-semibold opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
+                View full size ↗<span className="sr-only"> (opens in a new tab)</span>
+              </span>
+            </a>
+          </figure>
         }
       />
 
@@ -69,7 +94,7 @@ export default async function CallForPapersPage() {
               camera-ready deadline for the paper to be included in the programme and proceedings.
             </StatusNote>
             <div className="mt-8 flex flex-wrap items-start gap-6">
-              <DisabledButton reason="The submission system (PaperDesk) no longer accepts new papers.">Submit a paper</DisabledButton>
+              <DisabledButton reason="Submissions have ended.">Submit a paper</DisabledButton>
               <ButtonLink href="/registration">Register an accepted paper</ButtonLink>
             </div>
           </section>

@@ -106,10 +106,8 @@ export function mergeSpeakers(rows: Speaker[]): Person[] {
       logo: institutionLogo(institution),
     });
   }
-  // Keynotes first (in admin order), then everyone else (in admin order). Stable for ties.
-  return [...people.values()].sort(
-    (a, b) => Number(b.isKeynote) - Number(a.isKeynote) || a.order - b.order,
-  );
+  // Exactly the order set in the admin (keynote and workshop speakers interleaved). Stable for ties.
+  return [...people.values()].sort((a, b) => a.order - b.order);
 }
 
 /** Short, readable affiliation: the last comma-separated part is usually the institution. */

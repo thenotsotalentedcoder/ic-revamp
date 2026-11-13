@@ -179,7 +179,7 @@ export function SiteHeader() {
         <div className="flex items-center gap-2">
           <Link
             href="/registration"
-            className="hidden h-10 items-center rounded-[2px] bg-teal-700 px-4 text-[15px] font-semibold text-white transition-colors duration-150 hover:bg-teal-800 sm:inline-flex"
+            className="hidden h-10 items-center rounded-[2px] bg-navy-950 px-4 text-[15px] font-semibold text-white transition-colors duration-150 hover:bg-navy-800 sm:inline-flex"
           >
             Register
           </Link>
@@ -257,7 +257,7 @@ export function SiteHeader() {
             <div className="mx-auto max-w-[1200px] px-4 pb-5 md:px-8">
               <Link
                 href="/registration"
-                className="flex h-12 items-center justify-center rounded-[2px] bg-teal-700 text-[16px] font-semibold text-white"
+                className="flex h-12 items-center justify-center rounded-[2px] bg-navy-950 text-[16px] font-semibold text-white"
               >
                 Register for {CONFERENCE.short}
               </Link>

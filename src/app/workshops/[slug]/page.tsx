@@ -4,7 +4,7 @@ import { getSpeakers, getWorkshops } from "@/lib/api";
 import { mergeSpeakers } from "@/lib/people";
 import { SpeakerGrid } from "@/components/speakers";
 import { Container, PageHeader, SectionHead } from "@/components/ui";
-import { workshopFormUrl } from "@/components/workshop-card";
+import { FormLink, workshopFormUrl } from "@/components/workshop-card";
 import Image from "next/image";
 import { CONFERENCE } from "@/lib/site";
 
@@ -131,15 +131,12 @@ export default async function WorkshopPage({ params }: PageProps<"/workshops/[sl
             <p className="mt-2 text-white/75">Places are limited and confirmed in order of registration.</p>
           </div>
           {workshopFormUrl(w) ? (
-            <a
+            <FormLink
               href={workshopFormUrl(w)!}
-              target="_blank"
-              rel="noreferrer"
               className="inline-flex h-12 items-center rounded-[2px] bg-white px-6 text-[16px] font-semibold text-navy-950 transition-colors duration-150 hover:bg-teal-50 active:translate-y-px"
             >
               Register for the workshop
-              <span className="sr-only"> (opens a Google Form in a new tab)</span>
-            </a>
+            </FormLink>
           ) : (
             <span className="inline-flex h-12 items-center rounded-[2px] border border-dashed border-white/35 px-6 text-[15px] text-white/75">Registration opens soon</span>
           )}

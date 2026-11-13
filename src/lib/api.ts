@@ -1,14 +1,13 @@
 import { cacheLife, cacheTag } from "next/cache";
+import { db } from "./server/db";
 
 /**
- * Public content from the ICONICS backend (/api/public/*).
- * Everything here is cached into the static shell and refreshed every 5 minutes,
- * or on demand via revalidateTag(<tag>) after an admin save.
- * A failed request returns an empty list rather than breaking the page; each
+ * Public content, read straight from the database (Prisma).
+ * Everything here is cached into the static shell and refreshed every few minutes,
+ * or on demand via revalidateTag(<tag>) when an admin saves (see lib/server/http.ts refresh()).
+ * A failed query returns an empty list rather than breaking the page; each
  * section renders its own empty state.
  */
-export const API_BASE =
-  process.env.ICONICS_API_URL?.replace(/\/$/, "") ?? "https://iconics.neduet.edu.pk";
 
 export type Speaker = {
   id: string;
@@ -76,50 +75,83 @@ export type SiteSettings = Partial<
   >
 >;
 
-async function getPublic<T>(path: string, fallback: T): Promise<T> {
+/** Run a query; on any failure log it and fall back, so a DB hiccup never takes the page down. */
+async function safe<T>(label: string, q: () => Promise<T>, fallback: T): Promise<T> {
   try {
-    const res = await fetch(`${API_BASE}/api/public/${path}`, {
-      headers: { Accept: "application/json" },
-    });
-    if (!res.ok) return fallback;
-    const json = (await res.json()) as { success?: boolean; data?: T };
-    return json.data ?? fallback;
-  } catch {
+    return await q();
+  } catch (e) {
+    console.error(`[data] ${label} failed`, e);
     return fallback;
   }
 }
 
-const byOrder = <T extends { order: number }>(a: T, b: T) => a.order - b.order;
+const asc = { order: "asc" } as const;
 
-export async function getSpeakers() {
+export async function getSpeakers(): Promise<Speaker[]> {
   "use cache";
   cacheLife("minutes");
   cacheTag("speakers");
-  return (await getPublic<Speaker[]>("speakers", [])).sort(byOrder);
+  return safe(
+    "speakers",
+    () =>
+      db.speaker.findMany({
+        orderBy: asc,
+        select: { id: true, name: true, title: true, institution: true, country: true, photo: true, type: true, bio: true, topics: true, workshops: true, website: true, linkedin: true, scholar: true, order: true },
+      }) as Promise<Speaker[]>,
+    [],
+  );
 }
 
-export async function getImportantDates() {
+export async function getImportantDates(): Promise<ImportantDate[]> {
   "use cache";
   cacheLife("minutes");
   cacheTag("dates");
-  return (await getPublic<ImportantDate[]>("dates", [])).sort(byOrder);
+  return safe("dates", () => db.importantDate.findMany({ orderBy: asc, select: { id: true, date: true, title: true, description: true, order: true } }), []);
 }
 
-export async function getTracks() {
+export async function getTracks(): Promise<Track[]> {
   "use cache";
   cacheLife("minutes");
   cacheTag("tracks");
-  const tracks = await getPublic<Track[]>("tracks", []);
-  return tracks
-    .sort(byOrder)
-    .map((t) => ({ ...t, topics: [...t.topics].sort(byOrder) }));
+  return safe(
+    "tracks",
+    () =>
+      db.track.findMany({
+        orderBy: asc,
+        select: { id: true, name: true, order: true, topics: { orderBy: asc, select: { id: true, name: true, order: true } } },
+      }),
+    [],
+  );
 }
 
-export async function getWorkshops() {
+export async function getWorkshops(): Promise<Workshop[]> {
   "use cache";
   cacheLife("minutes");
   cacheTag("workshops");
-  return (await getPublic<Workshop[]>("workshops", [])).sort(byOrder);
+  return safe(
+    "workshops",
+    () =>
+      db.workshop.findMany({
+        orderBy: asc,
+        select: {
+          id: true,
+          slug: true,
+          title: true,
+          tagline: true,
+          description: true,
+          posterImage: true,
+          targetAudience: true,
+          learningOutcomes: true,
+          registrationLink: true,
+          order: true,
+          sessions: {
+            orderBy: asc,
+            select: { id: true, title: true, instructorName: true, instructorTitle: true, instructorInstitution: true, instructorCountry: true, topics: true, order: true },
+          },
+        },
+      }),
+    [],
+  );
 }
 
 export type CommitteeMember = {
@@ -132,37 +164,48 @@ export type CommitteeMember = {
   order: number;
 };
 
-/** Reviewer rows also carry an email field; it is deliberately never rendered. */
+/** Reviewer emails are deliberately never selected, so they can't reach the client payload. */
 export type Reviewer = { id: string; name: string; from: string | null; isNed: boolean; order: number };
 
 export type Publication = { id: string; year: string; journalUrl: string | null; isbn: string | null; issn: string | null };
 
-export async function getCommittee() {
+export async function getCommittee(): Promise<CommitteeMember[]> {
   "use cache";
   cacheLife("minutes");
   cacheTag("committee");
-  return (await getPublic<CommitteeMember[]>("committee", [])).sort(byOrder);
+  return safe(
+    "committee",
+    () => db.committeeMember.findMany({ orderBy: asc, select: { id: true, committeeName: true, name: true, role: true, institution: true, isChair: true, order: true } }),
+    [],
+  );
 }
 
-export async function getReviewers() {
+export async function getReviewers(): Promise<Reviewer[]> {
   "use cache";
   cacheLife("minutes");
   cacheTag("reviewers");
-  const rows = await getPublic<(Reviewer & { email?: string })[]>("reviewers", []);
-  // Strip emails at the boundary so they can never reach the client payload.
-  return rows.map(({ id, name, from, isNed, order }) => ({ id, name, from, isNed, order })).sort(byOrder);
+  return safe("reviewers", () => db.reviewer.findMany({ orderBy: [asc, { name: "asc" }], select: { id: true, name: true, from: true, isNed: true, order: true } }), []);
 }
 
-export async function getPublications() {
+export async function getPublications(): Promise<Publication[]> {
   "use cache";
   cacheLife("minutes");
   cacheTag("publications");
-  return getPublic<Publication[]>("previous-conference-publications", []);
+  return safe("publications", () => db.previousConferencePublication.findMany({ orderBy: { year: "desc" }, select: { id: true, year: true, journalUrl: true, isbn: true, issn: true } }), []);
 }
 
-export async function getSettings() {
+export async function getSettings(): Promise<SiteSettings> {
   "use cache";
   cacheLife("minutes");
   cacheTag("settings");
-  return getPublic<SiteSettings>("settings", {});
+  return safe(
+    "settings",
+    async () => {
+      const rows = await db.siteSetting.findMany();
+      const out: Record<string, string> = { speakers_active: "true", schedule_active: "true" };
+      for (const r of rows) out[r.key] = r.value;
+      return out as SiteSettings;
+    },
+    {},
+  );
 }
