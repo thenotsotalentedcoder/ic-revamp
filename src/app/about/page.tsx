@@ -4,7 +4,7 @@ import { getCommittee, getTracks } from "@/lib/api";
 import { CONFERENCE } from "@/lib/site";
 import { ButtonLink, Caption, Container, PageHeader, SectionHead, TextLink } from "@/components/ui";
 import lecternSeal from "../../../public/photos/2022-speaker-lectern-seal.jpg";
-import hall from "../../../public/photos/2024-full-hall.jpg";
+import hall from "../../../public/slideshow/2022-qa-floor.jpg";
 
 export const metadata: Metadata = {
   title: "About",

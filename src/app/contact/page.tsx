@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { CONFERENCE } from "@/lib/site";
 import { Caption, Container, PageHeader, SectionHead, TextLink } from "@/components/ui";
-import rows from "../../../public/photos/2022-audience-rows.jpg";
+import rows from "../../../public/slideshow/2022-audience-rows.jpg";
 
 export const metadata: Metadata = {
   title: "Contact & venue",
