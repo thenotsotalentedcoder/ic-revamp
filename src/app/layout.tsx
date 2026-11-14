@@ -40,7 +40,7 @@ export const viewport: Viewport = { themeColor: "#0b1b33" };
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en-GB" className={`${sourceSerif.variable} ${sourceSans.variable} antialiased`}>
-      <body className="flex min-h-dvh flex-col">
+      <body className="flex min-h-dvh flex-col" suppressHydrationWarning>
         <Chrome header={<SiteHeader />} footer={<SiteFooter />}>
           {children}
         </Chrome>

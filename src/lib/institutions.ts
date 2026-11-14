@@ -35,6 +35,7 @@ export const INSTITUTION_LOGOS: Logo[] = [
   L("karachi-uni", "University of Karachi", "karachi-uni.png", 290, 356, /university of karachi/i),
   L("habib", "Habib University", "habib.svg", 288, 100, /habib university/i),
   L("ned", "NED University of Engineering & Technology", "ned.png", 339, 333, /\bned\b/i),
+  L("uet-lahore", "University of Engineering and Technology, Lahore", "UET.png", 224, 225, /(\buet\b\W*lahore|engineering (and|&) technology,?\s*lahore)/i),
   L("amazon", "Amazon", "amazon.svg", 399, 133, /amazon/i),
   L("outsystems", "OutSystems", "outsystems.png", 500, 105, /outsystems/i),
 ];

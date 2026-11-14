@@ -4,20 +4,27 @@ import type { Person } from "@/lib/people";
 import { EditionRail } from "./edition-rail";
 import { HeroSlideshow, type Slide } from "./hero-slideshow";
 import { Flag } from "./ui";
-import stage22 from "../../public/photos/2022-stage-inaugural.jpg";
-import siddiqi from "../../public/photos/2024-keynote-siddiqi.jpg";
-import lectern22 from "../../public/photos/2022-lectern-banner.jpg";
-import genovese from "../../public/photos/2024-keynote-genovese.jpg";
-import qa22 from "../../public/photos/2022-qa-floor.jpg";
-import opening24 from "../../public/photos/2024-opening-auditorium.jpg";
+import opening24 from "../../public/slideshow/2024-opening-auditorium.jpg";
+import siddiqi from "../../public/slideshow/2024-keynote-siddiqi.jpg";
+import lectern22 from "../../public/slideshow/2022-lectern-banner.jpg";
+import genovese from "../../public/slideshow/2024-keynote-genovese.jpg";
+import qa22 from "../../public/slideshow/2022-qa-floor.jpg";
+import audience22 from "../../public/slideshow/2022-audience-rows.jpg";
+import keynote22 from "../../public/slideshow/2022-lectern-keynote.jpg";
+import speaker16 from "../../public/slideshow/4.jpg";
+import stage22 from "../../public/slideshow/2022-stage-inaugural.jpg";
 
+/** Every image in public/slideshow/. First slide: 2024 opening; last slide: 2022 inaugural session. */
 const SLIDES: Slide[] = [
-  { src: stage22, caption: "Inaugural session of iCONICS’22, NED University Main Auditorium", position: "50% 40%" },
+  { src: opening24, caption: "Delegates and guests at the opening of iCONICS’24", position: "35% 40%" },
   { src: siddiqi, caption: "Prof. Irfan Siddiqi, University of California, Berkeley, delivering a keynote at iCONICS’24", position: "40% 50%" },
   { src: lectern22, caption: "A keynote address at iCONICS’22", position: "70% 35%" },
   { src: genovese, caption: "Prof. Marco Genovese, INRIM (Italy), on quantum sensing and imaging at iCONICS’24", position: "20% 40%" },
   { src: qa22, caption: "Questions from the floor during a session at iCONICS’22", position: "45% 30%" },
-  { src: opening24, caption: "Delegates and guests at the opening of iCONICS’24", position: "35% 40%" },
+  { src: audience22, caption: "Participants in a lecture hall at NED University during iCONICS’22", position: "50% 50%" },
+  { src: keynote22, caption: "A keynote address at the NED University lectern, iCONICS’22", position: "50% 40%" },
+  { src: speaker16, caption: "A speaker presenting at iCONICS’16", position: "50% 35%" },
+  { src: stage22, caption: "Inaugural session of iCONICS’22, NED University Main Auditorium", position: "50% 40%" },
 ];
 
 /** Homepage hero: navy text panel + documentary slideshow (direction B layout, direction A type). */

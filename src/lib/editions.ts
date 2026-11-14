@@ -31,7 +31,6 @@ export const EDITIONS_ARCHIVE: Edition[] = [
       { label: "Workshops", value: "2" },
     ],
     keynotes: [
-      { name: "Prof. Irfan Siddiqi", affiliation: "University of California, Berkeley, USA" },
       { name: "Prof. Marco Genovese", affiliation: "INRIM, Italy" },
       { name: "Prof. Rafael Ferreira Mello", affiliation: "UFRPE, Brazil" },
       { name: "Dr. Mubashir Rehmani", affiliation: "Munster Technological University, Ireland" },
@@ -120,7 +119,7 @@ export const EDITIONS_ARCHIVE: Edition[] = [
   },
   {
     year: 2016,
-    cover: { src: "/archive/2016/4.jpg", alt: "Participants at iCONICS’16" },
+    cover: { src: "/archive/2016/ic16.jpg", alt: "Participants at iCONICS’16" },
     label: "iCONICS’16",
     ordinal: "1st edition",
     dates: "15–16 December 2016",
