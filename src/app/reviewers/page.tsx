@@ -22,9 +22,11 @@ function List({ rows }: { rows: Reviewer[] }) {
 
 export default async function ReviewersPage() {
   const reviewers = await getReviewers();
-  const external = reviewers.filter((r) => !r.isNed);
-  const ned = reviewers.filter((r) => r.isNed);
-
+  // Names starting with "Dr" come first; Array.sort is stable, so the existing order is kept within each group.
+  const isDr = (r: Reviewer) => /^dr\b/i.test(r.name.trim());
+  const drFirst = (rows: Reviewer[]) => [...rows].sort((a, b) => Number(isDr(b)) - Number(isDr(a)));
+  const external = drFirst(reviewers.filter((r) => !r.isNed));
+  const ned = drFirst(reviewers.filter((r) => r.isNed));
 
   return (
     <>
@@ -45,7 +47,7 @@ export default async function ReviewersPage() {
         )}
         {ned.length > 0 && (
           <section>
-            <SectionHead title="NED University reviewers" intro={`${ned.length} reviewers from NED University of Engineering & Technology.`} />
+            <SectionHead title="Departmental reviewers" intro={`${ned.length} reviewers from NED University of Engineering & Technology.`} />
             <List rows={ned} />
           </section>
         )}
