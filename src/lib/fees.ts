@@ -40,6 +40,7 @@ export const REGISTRATION_TYPES: RegistrationType[] = [
       { label: "Paper registration", detail: "National presenter", amount: "PKR 10,000" },
       { label: "Paper registration", detail: "International presenter", amount: "USD 50" },
       { label: "Co-author registration", amount: "PKR 3,000" },
+      { label: "Co-author registration", detail: "ISACA member", amount: "Free" },
     ],
     actions: [
       { label: "Paper / presenter registration", form: "paper" },
@@ -55,6 +56,7 @@ export const REGISTRATION_TYPES: RegistrationType[] = [
       { label: "Participant registration", amount: "PKR 3,000" },
       { label: "IEEE professional attendee", detail: "Valid IEEE membership", amount: "PKR 2,000" },
       { label: "IEEE or NED student attendee", detail: "Valid student card", amount: "PKR 1,000" },
+      { label: "ISACA member attendee", detail: "Valid ISACA membership", amount: "Free" },
     ],
     actions: [{ label: "Attendee registration", form: "attendee" }],
     includes: ["Conference kit", "Lunch and refreshments", "Participation certificate", "Access to selected workshops"],
