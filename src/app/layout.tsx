@@ -23,7 +23,15 @@ export const metadata: Metadata = {
     siteName: CONFERENCE.short,
     title: `${CONFERENCE.short} · ${CONFERENCE.edition} ${CONFERENCE.name}`,
     description,
-    images: [{ url: "/photos/2022-stage-inaugural.jpg", width: 2048, height: 1370 }],
+    url: "/",
+    locale: "en_GB",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 627, alt: `${CONFERENCE.short}, ${CONFERENCE.edition} ${CONFERENCE.name}, ${CONFERENCE.dates}` }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${CONFERENCE.short} · ${CONFERENCE.edition} ${CONFERENCE.name}`,
+    description,
+    images: ["/og-image.jpg"],
   },
 };
 

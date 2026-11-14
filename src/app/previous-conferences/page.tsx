@@ -47,6 +47,9 @@ export default async function PreviousConferencesPage() {
           validISBN(pub?.isbn ?? null) ? `ISBN ${pub!.isbn}` : null,
           validISSN(pub?.issn ?? null) ? `ISSN ${pub!.issn}` : null,
         ].filter(Boolean);
+        const extras = e.photos.slice(3);
+        const leftPhotos = extras.slice(0, Math.ceil(extras.length / 2));
+        const rightPhotos = [...e.photos.slice(1, 3), ...extras.slice(leftPhotos.length)];
         return (
           <section key={e.year} id={`y${e.year}`} aria-labelledby={`h${e.year}`} className={`scroll-mt-32 py-16 md:py-20 ${idx % 2 ? "bg-white" : ""} border-b border-line`}>
             <Container className="grid gap-12 lg:grid-cols-12">
@@ -78,6 +81,19 @@ export default async function PreviousConferencesPage() {
                     {ids.length > 0 && <span className="ml-3 text-ink-600">{ids.join(" · ")}</span>}
                   </p>
                 )}
+
+                {leftPhotos.length > 0 && (
+                  <div className="mt-10 space-y-6">
+                    {leftPhotos.map((p) => (
+                      <figure key={p.src}>
+                        <div className="relative aspect-[4/3] overflow-hidden bg-surface-100">
+                          <Image src={p.src} alt={p.alt} fill sizes="(min-width:1024px) 420px, 100vw" className="object-cover" />
+                        </div>
+                        <Caption>{p.alt}.</Caption>
+                      </figure>
+                    ))}
+                  </div>
+                )}
               </div>
 
               <div className="lg:col-span-7">
@@ -87,9 +103,9 @@ export default async function PreviousConferencesPage() {
                   </div>
                   <Caption>{e.photos[0].alt}.</Caption>
                 </figure>
-                {e.photos.length > 1 && (
+                {rightPhotos.length > 0 && (
                   <div className="mt-6 grid grid-cols-2 gap-6">
-                    {e.photos.slice(1, 3).map((p) => (
+                    {rightPhotos.map((p) => (
                       <figure key={p.src}>
                         <div className="relative aspect-[4/3] overflow-hidden bg-surface-100">
                           <Image src={p.src} alt={p.alt} fill sizes="(min-width:1024px) 330px, 50vw" className="object-cover" />

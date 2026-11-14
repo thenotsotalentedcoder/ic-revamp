@@ -14,7 +14,7 @@ export type Fee = { label: string; detail?: string; amount: string };
 
 /** Early bird applies to paper registration only. No other early-bird offer. */
 export const EARLY_BIRD: { deadline: string | null; fees: Fee[] } = {
-  deadline: null, // e.g. "Fri 4 Dec 2026" once confirmed
+  deadline: "17 November 2026",
   fees: [
     { label: "Paper registration", detail: "National presenter", amount: "PKR 7,000" },
     { label: "Paper registration", detail: "International presenter", amount: "USD 40" },

@@ -47,6 +47,10 @@ export const EDITIONS_ARCHIVE: Edition[] = [
       { src: "/archive/2024/2.jpg", alt: "Guests and audience at the opening of iCONICS’24" },
       { src: "/archive/2024/3.jpg", alt: "A hands-on workshop session at iCONICS’24" },
       { src: "/archive/2024/6.jpg", alt: "A speaker presenting during an iCONICS’24 session" },
+      { src: "/archive/2024/5.jpg", alt: "Participants at iCONICS’24" },
+      { src: "/archive/2024/9.jpg", alt: "Participants at iCONICS’24" },
+      { src: "/archive/2024/10.jpg", alt: "Participants at iCONICS’24" },
+      { src: "/archive/2024/11.jpg", alt: "Participants at iCONICS’24" },
     ],
   },
   {
@@ -79,6 +83,10 @@ export const EDITIONS_ARCHIVE: Edition[] = [
       { src: "/archive/2022/2022-lectern-2.jpg", alt: "A guest address at the NED University lectern, iCONICS’22" },
       { src: "/archive/2022/2022-keynote-closeup.jpg", alt: "A keynote speaker addressing the auditorium at iCONICS’22" },
       { src: "/archive/2022/2022-students.jpg", alt: "Students in the audience at iCONICS’22" },
+      { src: "/archive/2022/7.jpg", alt: "Participants at iCONICS’22" },
+      { src: "/archive/2022/8.jpg", alt: "Participants at iCONICS’22" },
+      { src: "/archive/2022/9.webp", alt: "Participants at iCONICS’22" },
+      { src: "/archive/2022/10.jpg", alt: "Participants at iCONICS’22" },
     ],
     proceedings: { label: "Proceedings in IEEE Xplore", href: "https://ieeexplore.ieee.org/xpl/conhome/10099477/proceeding" },
   },
@@ -106,6 +114,7 @@ export const EDITIONS_ARCHIVE: Edition[] = [
     highlights: ["Patron: Dr. Sarosh Hashmat Lodi, Vice Chancellor, NED University"],
     photos: [
       { src: "/archive/2018/5.jpg", alt: "Question and answer session at iCONICS’18" },
+      { src: "/archive/2018/4.webp", alt: "Participants at iCONICS’18" },
     ],
     proceedings: { label: "Proceedings (PDF)", href: "https://www.nediconics.com/documents/Final-ICONICS'18-Proceedings.pdf" },
   },
@@ -136,6 +145,7 @@ export const EDITIONS_ARCHIVE: Edition[] = [
     ],
     photos: [
       { src: "/archive/2016/1.jpg", alt: "Inaugural session panel at iCONICS’16" },
+      { src: "/archive/2016/5.jpg", alt: "Participants at iCONICS’16" },
     ],
     proceedings: { label: "Proceedings (PDF)", href: "https://www.nediconics.com/documents/Final-ICONICS'16-Proceedings-Website.pdf" },
   },
