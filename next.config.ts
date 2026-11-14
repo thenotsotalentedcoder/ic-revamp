@@ -16,6 +16,8 @@ const nextConfig: NextConfig = {
     ];
   },
   turbopack: {
+    // Pin the project root: on the server a stray package-lock.json in the parent folder was being picked up.
+    root: process.cwd(),
     rules: {
       "*.css": {
         loaders: ["@tailwindcss/turbopack"],
