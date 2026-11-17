@@ -57,7 +57,7 @@ export function WorkshopCard({ w, onDark = false, priority = false }: { w: Works
         </h3>
         {form ? (
           <FormLink
-            href={form}
+            href={`/workshops/${w.slug}`}
             className={`inline-flex h-12 items-center justify-center rounded-[2px] px-5 text-[16px] font-semibold transition-colors duration-150 active:translate-y-px ${
               onDark ? "bg-white text-navy-950 hover:bg-teal-50" : "bg-teal-700 text-white hover:bg-teal-800"
             }`}

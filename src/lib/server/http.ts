@@ -96,7 +96,7 @@ export function parse<T>(schema: ZodType<T>, input: unknown): T {
   return schema.parse(input);
 }
 
-/** Refresh the public site after an admin save (stale-while-revalidate). */
+/** Refresh the public site after an admin save. Expires immediately so the very next page load shows the change (no stale-while-revalidate lag). */
 export function refresh(...tags: string[]) {
-  for (const t of tags) revalidateTag(t, "max");
+  for (const t of tags) revalidateTag(t, { expire: 0 });
 }

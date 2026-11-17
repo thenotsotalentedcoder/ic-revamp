@@ -21,7 +21,7 @@ export default function WorkshopsAdmin() {
         { name: "description", label: "Description", type: "textarea", required: true, rows: 6 },
         { name: "targetAudience", label: "Target audience", type: "textarea", rows: 3 },
         { name: "learningOutcomes", label: "Learning outcomes", type: "lines", help: "One per line." },
-        { name: "registrationLink", label: "Registration link", type: "url", placeholder: "https://", help: "Leave empty to use the site’s workshop registration form." },
+        { name: "registrationLink", label: "Registration link", type: "url", placeholder: "https://", help: "Paste the Google Form link. Once saved, the “Registration opens soon” box becomes a “Register for this workshop” button that opens it. Leave empty to keep it disabled." },
         { name: "order", label: "Order", type: "number" },
         { name: "posterImage", label: "Poster image", type: "image", help: "PNG, JPG or WebP, up to 5 MB." },
       ]}

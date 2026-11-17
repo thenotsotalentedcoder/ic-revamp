@@ -8,6 +8,9 @@ import { FormLink, workshopFormUrl } from "@/components/workshop-card";
 import Image from "next/image";
 import { CONFERENCE } from "@/lib/site";
 
+/** The whole page depends on the slug and renders in one piece, so a blocking route is intended (silences the dev-time instant-navigation check). */
+export const instant = false;
+
 export async function generateStaticParams() {
   const workshops = await getWorkshops();
   return workshops.length ? workshops.map((w) => ({ slug: w.slug })) : [{ slug: "quantum-computing" }];
