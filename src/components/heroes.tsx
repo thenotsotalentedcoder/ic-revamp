@@ -12,14 +12,28 @@ import qa22 from "../../public/slideshow/2022-qa-floor.jpg";
 import keynote22 from "../../public/slideshow/2022-lectern-keynote.jpg";
 import speaker16 from "../../public/slideshow/4.jpg";
 import stage22 from "../../public/slideshow/2022-stage-inaugural.jpg";
+import audiMarkov from "../../public/slideshow/audi-markov.jpeg";
+import audiPod from "../../public/slideshow/audi-pod.jpeg";
+import group24 from "../../public/slideshow/group.jpeg";
+import markovTrophy from "../../public/slideshow/markov-trophy.jpeg";
+import quantWs from "../../public/slideshow/quant-ws.jpeg";
+import quantumWs from "../../public/slideshow/quantum-ws.jpeg";
+import trophy from "../../public/slideshow/trophy.jpeg";
 
 /** Every image in public/slideshow/. First slide: 2024 opening; last slide: 2022 inaugural session. */
 const SLIDES: Slide[] = [
   { src: opening24, caption: "Delegates and guests at the opening of iCONICS’24", position: "35% 40%" },
   { src: siddiqi, caption: "Prof. Irfan Siddiqi, University of California, Berkeley, delivering a keynote at iCONICS’24", position: "40% 50%" },
+  { src: group24, caption: "Organisers, speakers and student volunteers at iCONICS’24", position: "50% 60%" },
   { src: lectern22, caption: "A keynote address at iCONICS’22", position: "70% 35%" },
+  { src: audiMarkov, caption: "Guests and keynote speakers meeting before the opening session, iCONICS’24", position: "50% 35%" },
   { src: genovese, caption: "Prof. Marco Genovese, INRIM (Italy), on quantum sensing and imaging at iCONICS’24", position: "20% 40%" },
+  { src: quantWs, caption: "Prof. Irfan Siddiqi, UC Berkeley, presenting quantum computing gates at iCONICS’24", position: "35% 40%" },
+  { src: trophy, caption: "Memento for keynote speaker Prof. Marco Genovese, INRIM (Italy), iCONICS’24", position: "50% 75%" },
   { src: qa22, caption: "Questions from the floor during a session at iCONICS’22", position: "45% 30%" },
+  { src: quantumWs, caption: "A quantum computing workshop session at iCONICS’24", position: "55% 45%" },
+  { src: markovTrophy, caption: "A keynote speaker receiving a memento at iCONICS’24", position: "50% 25%" },
+  { src: audiPod, caption: "A speaker addressing the main auditorium at iCONICS’22", position: "50% 45%" },
   { src: keynote22, caption: "A keynote address at the NED University lectern, iCONICS’22", position: "50% 40%" },
   { src: speaker16, caption: "A speaker presenting at iCONICS’16", position: "50% 35%" },
   { src: stage22, caption: "Inaugural session of iCONICS’22, NED University Main Auditorium", position: "50% 40%" },
